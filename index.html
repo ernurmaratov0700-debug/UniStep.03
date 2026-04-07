@@ -11,7 +11,7 @@
         :root { 
             --primary: #1e293b; --secondary: #3b82f6; --accent: #f59e0b;
             --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b;
-            --muted: #64748b;
+            --muted: #64748b; --item-bg: rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] {
@@ -19,8 +19,9 @@
             --secondary: #60a5fa; 
             --bg: #0f172a; 
             --card-bg: #1e293b; 
-            --text: #f1f5f9; 
+            --text: #f1f5f9; /* Қараңғыда мәтін ақшыл болады */
             --muted: #94a3b8;
+            --item-bg: rgba(255, 255, 255, 0.1); /* Тізімдердің фоны анық болады */
         }
 
         body { 
@@ -58,41 +59,39 @@
             background: var(--card-bg); 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
             cursor: pointer; text-align: center; transition: 0.3s; 
-            color: var(--text);
+            color: var(--text) !important;
             height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-        .stat-card:hover { transform: translateY(-5px); background: var(--secondary); color: white; }
+        .stat-card:hover { transform: translateY(-5px); background: var(--secondary); color: white !important; }
 
-        .s-card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; color: var(--text); }
+        .s-card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; color: var(--text) !important; }
         .back-btn { font-size: 24px; cursor: pointer; margin-right: 15px; color: var(--text); }
         
-        .link-item { 
+        .link-item, .list-item { 
             display: flex; align-items: center; padding: 15px; 
-            background: rgba(125,125,125,0.1); 
+            background: var(--item-bg); 
             border-radius: 15px; margin-bottom: 12px; 
-            text-decoration: none; color: var(--text); 
+            text-decoration: none; color: var(--text) !important; 
             border: 1px solid rgba(125,125,125,0.1); 
         }
         .text-muted { color: var(--muted) !important; }
 
         .list-item { 
-            border-left: 4px solid var(--secondary); padding: 10px 15px; 
-            background: rgba(125,125,125,0.1); 
-            border-radius: 8px; margin-bottom: 10px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            color: var(--text);
+            border-left: 4px solid var(--secondary); 
+            justify-content: space-between; 
         }
-        .urgent { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.15); animation: pulse 2s infinite; }
+        .urgent { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.15); }
         
-        /* ЖАҢА СТИЛЬДЕР */
-        .mood-btn { font-size: 1.5rem; cursor: pointer; transition: 0.2s; border: none; background: none; }
-        .mood-btn:hover { transform: scale(1.3); }
-        
+        /* DARK MODE INPUT FIX */
         input, select, textarea {
-            background-color: var(--bg) !important;
+            background-color: var(--card-bg) !important;
             color: var(--text) !important;
             border: 1px solid var(--muted) !important;
         }
+        input::placeholder { color: var(--muted) !important; opacity: 0.7; }
+
+        .mood-btn { font-size: 1.5rem; cursor: pointer; transition: 0.2s; border: none; background: none; }
+        .mood-btn:hover { transform: scale(1.3); }
     </style>
 </head>
 <body>
@@ -200,7 +199,7 @@
             <div class="s-card"><div id="gpa-rows"><div class="row g-2 mb-2"><div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div></div></div><button onclick="addGpaRow()" class="btn btn-outline-secondary btn-sm mb-3 w-100">+ Пән қосу</button><button onclick="calculateAdvancedGPA()" class="btn btn-primary w-100">GPA Есептеу</button><div id="advancedGpaRes" class="mt-3 text-center h3 fw-bold text-success"></div></div>
         </div></div>
 
-        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Карта</h3></div><div class="s-card p-0 overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.551744155182!2d82.6074116!3d49.9634994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42eb45953046f481%3A0xe1047648f58a36!2z0JLQmtCjINC40LwuINChLiDQkNC80LDQvdC20L7Qu9C-0LLQsA!5e0!3m2!1skk!2skz!4v1715000000000!5m2!1skk!2skz" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div></div>
+        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Карта</h3></div><div class="s-card p-0 overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.444!2d82.6!3d49.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDU0JzAwLjAiTiA4MsKwMzYnMDAuMCJF!5e0!3m2!1skk!2skz!4v1620000000000" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div></div>
         <div id="glossary" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Сөздік</h3></div><div id="glossaryView" class="s-card"></div></div></div>
         <div id="news-write" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Жазу</h3></div><div class="s-card"><textarea id="newsInp" class="form-control mb-3" rows="3" placeholder="Хабарлама..."></textarea><div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" id="urgentCheck"><label class="form-check-label" for="urgentCheck">⚠️ Шұғыл</label></div><button onclick="saveNews()" class="btn btn-warning w-100 fw-bold">Жариялау</button></div></div></div>
         <div id="advisor" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Advisor</h3></div><div class="s-card"><h5>Анонимді сұрақ</h5><textarea id="anonQ" class="form-control mb-3" rows="4"></textarea><button onclick="sendQ()" class="btn btn-primary w-100">Жіберу</button></div></div></div>
@@ -244,7 +243,7 @@
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('welcome-user').innerHTML = `<i class="fas fa-user me-2"></i> ${user}`;
                 updateTimer(); renderNews(); renderSch(); renderGl();
-                renderDeadlines(); renderLib(); // Жаңа функцияларды іске қосу
+                renderDeadlines(); renderLib();
                 
                 const savedMood = localStorage.getItem('user_mood');
                 if(savedMood) document.getElementById('mood-status').innerText = `Бүгін сізде: ${savedMood} күйі.`;
@@ -253,7 +252,6 @@
 
         function logout() { sessionStorage.removeItem('current_user'); location.reload(); }
 
-        // --- CORE LOGIC ---
         const quotes = [
             "Бүгін кітапханаға баруды ұмытпа! 📚", 
             "Сәттілік! Сенің қолыңнан бәрі келеді. ✨", 
@@ -301,7 +299,6 @@
         }
         function backToHome() { openSection('home'); }
 
-        // --- DEADLINES ---
         function addDeadline() {
             let task = document.getElementById('dl-task').value;
             let date = document.getElementById('dl-date').value;
@@ -324,7 +321,6 @@
             }).join('') || "Дедлайн жоқ.";
         }
 
-        // --- LIBRARY ---
         function addLib() {
             let title = document.getElementById('lib-title').value;
             let link = document.getElementById('lib-link').value;
@@ -349,7 +345,6 @@
             `).join('') || "<div class='text-center w-100 mt-3'>Қоржын бос.</div>";
         }
 
-        // --- GPA, NEWS, SCH, GLOSSARY ---
         function addGpaRow() {
             const r = document.createElement('div'); r.className='row g-2 mb-2';
             r.innerHTML='<div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div>';
