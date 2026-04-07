@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* НЕГІЗГІ ТҮСТЕР ЖӘНЕ DARK MODE */
+        /* НЕГІЗГІ ТҮСТЕР ЖӘНЕ DARK MODE ТҮЗЕТУЛЕРІ */
         :root { 
             --primary: #1e293b; --secondary: #3b82f6; --accent: #f59e0b;
             --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b;
@@ -31,11 +31,7 @@
             margin: 0; 
             padding-bottom: 30px; 
         }
-
-        [data-theme="dark"] .s-card, [data-theme="dark"] .list-item, [data-theme="dark"] .stat-card,
-        [data-theme="dark"] .link-item, [data-theme="dark"] h3, [data-theme="dark"] h5, 
-        [data-theme="dark"] h6, [data-theme="dark"] b { color: var(--text) !important; }
-
+        
         /* AUTH SECTION */
         #auth-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -47,11 +43,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; 
         }
 
-        /* INTERFACE */
+        /* ИНТЕРФЕЙС СТИЛЬДЕРІ */
         .top-nav { background: var(--primary); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .hero { min-height: 38vh; background: linear-gradient(135deg, #2a3a50 30%, var(--secondary) 90%); color: white; border-radius: 0 0 40px 40px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .hero { min-height: 35vh; background: linear-gradient(135deg, #2a3a50 30%, var(--secondary) 90%); color: white; border-radius: 0 0 40px 40px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         
-        .timer-box { display: none; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 12px 20px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); width: fit-content; margin-left: auto; margin-right: auto; }
+        .timer-box { display: none; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 12px 20px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); width: fit-content; margin-left: auto; margin-right: auto; color: white; }
 
         .section-page { display: none; animation: fadeIn 0.4s ease; padding: 25px 15px; }
         .active { display: block; }
@@ -62,13 +58,13 @@
             background: var(--card-bg); 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
             cursor: pointer; text-align: center; transition: 0.3s; 
+            color: var(--text);
             height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-        .stat-card:hover { transform: translateY(-5px); background: var(--secondary); color: white !important; }
-        .stat-card:hover i { color: white !important; }
+        .stat-card:hover { transform: translateY(-5px); background: var(--secondary); color: white; }
 
-        .s-card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .back-btn { font-size: 24px; cursor: pointer; margin-right: 15px; }
+        .s-card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; color: var(--text); }
+        .back-btn { font-size: 24px; cursor: pointer; margin-right: 15px; color: var(--text); }
         
         .link-item { 
             display: flex; align-items: center; padding: 15px; 
@@ -77,24 +73,26 @@
             text-decoration: none; color: var(--text); 
             border: 1px solid rgba(125,125,125,0.1); 
         }
+        .text-muted { color: var(--muted) !important; }
 
         .list-item { 
-            border-left: 4px solid var(--secondary); padding: 12px 15px; 
-            background: rgba(125,125,125,0.08); 
+            border-left: 4px solid var(--secondary); padding: 10px 15px; 
+            background: rgba(125,125,125,0.1); 
             border-radius: 8px; margin-bottom: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
+            color: var(--text);
         }
-        .urgent { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1); animation: pulse 2s infinite; }
+        .urgent { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.15); animation: pulse 2s infinite; }
+        
+        /* ЖАҢА СТИЛЬДЕР */
+        .mood-btn { font-size: 1.5rem; cursor: pointer; transition: 0.2s; border: none; background: none; }
+        .mood-btn:hover { transform: scale(1.3); }
         
         input, select, textarea {
-            background-color: var(--card-bg) !important;
+            background-color: var(--bg) !important;
             color: var(--text) !important;
             border: 1px solid var(--muted) !important;
-            border-radius: 10px !important;
         }
-
-        .mood-btn { font-size: 1.6rem; cursor: pointer; transition: 0.2s; border: none; background: none; }
-        .mood-btn:hover { transform: scale(1.3); }
     </style>
 </head>
 <body>
@@ -105,13 +103,13 @@
             <div id="login-form">
                 <input type="text" id="user-login" class="form-control mb-3" placeholder="Логин">
                 <input type="password" id="user-pass" class="form-control mb-3" placeholder="Құпия сөз">
-                <button onclick="handleAuth('login')" class="btn btn-primary w-100 mb-2 py-2">Кіру</button>
+                <button onclick="handleAuth('login')" class="btn btn-primary w-100 mb-2">Кіру</button>
                 <button onclick="toggleAuth(false)" class="btn btn-link btn-sm">Тіркелу</button>
             </div>
             <div id="reg-form" style="display:none">
                 <input type="text" id="reg-login" class="form-control mb-3" placeholder="Жаңа логин">
                 <input type="password" id="reg-pass" class="form-control mb-3" placeholder="Жаңа құпия сөз">
-                <button onclick="handleAuth('reg')" class="btn btn-success w-100 mb-2 py-2">Тіркелу</button>
+                <button onclick="handleAuth('reg')" class="btn btn-success w-100 mb-2">Тіркелу</button>
                 <button onclick="toggleAuth(true)" class="btn btn-link btn-sm">Кіруге қайту</button>
             </div>
         </div>
@@ -120,7 +118,7 @@
     <div id="main-app" style="display:none">
         <div id="home" class="section-page active" style="padding:0">
             <div class="top-nav">
-                <div class="fw-bold" id="welcome-user">UniStep</div>
+                <div class="fw-bold" id="welcome-user"><i class="fas fa-walking me-2"></i>UniStep</div>
                 <div>
                     <i class="fas fa-moon me-3" id="theme-btn" onclick="toggleTheme()" style="cursor:pointer"></i>
                     <i class="fas fa-sign-out-alt" onclick="logout()" style="cursor:pointer"></i>
@@ -129,9 +127,9 @@
             <div class="hero">
                 <div class="w-100">
                     <h2 class="fw-bold">UniStep: Цифрлық Ментор</h2>
-                    <p id="daily-quote" class="mt-3 px-3 fw-medium" style="font-size: 1.1rem; line-height: 1.4; color: #fff;"></p>
-                    <div id="timer-container" class="timer-box text-white">
-                        <div class="small opacity-75">Сессияға қалды:</div>
+                    <p id="daily-quote" class="mt-2" style="font-size: 1rem; opacity: 0.9; padding: 0 15px;"></p>
+                    <div id="timer-container" class="timer-box">
+                        <div class="small mb-1">Сессияға қалды:</div>
                         <div id="countdown" class="h5 fw-bold mb-0"></div>
                     </div>
                 </div>
@@ -139,7 +137,7 @@
 
             <div class="container mt-4">
                 <div class="s-card mb-4 text-center">
-                    <h6 class="fw-bold mb-3"><i class="fas fa-smile me-2 text-warning"></i>Көңіл-күйің қалай?</h6>
+                    <h6 class="fw-bold mb-2"><i class="fas fa-smile me-2 text-warning"></i>Көңіл-күйің қалай?</h6>
                     <div class="d-flex justify-content-around">
                         <span class="mood-btn" onclick="saveMood('😊')">😊</span>
                         <span class="mood-btn" onclick="saveMood('😐')">😐</span>
@@ -150,66 +148,63 @@
                     <div id="mood-status" class="small mt-2 text-muted"></div>
                 </div>
 
-                <div class="row g-3 mb-4">
-                    <div class="col-4" onclick="openSection('schedule')"><div class="stat-card"><i class="fas fa-calendar-alt text-primary fa-lg"></i><div class="small fw-bold mt-2">Кесте</div></div></div>
-                    <div class="col-4" onclick="openSection('academic')"><div class="stat-card"><i class="fas fa-chart-line text-success fa-lg"></i><div class="small fw-bold mt-2">GPA</div></div></div>
-                    <div class="col-4" onclick="openSection('deadlines')"><div class="stat-card"><i class="fas fa-tasks text-danger fa-lg"></i><div class="small fw-bold mt-2">Дедлайн</div></div></div>
-                    <div class="col-4" onclick="openSection('map')"><div class="stat-card"><i class="fas fa-map-marked-alt text-info fa-lg"></i><div class="small fw-bold mt-2">Карта</div></div></div>
-                    <div class="col-4" onclick="openSection('library')"><div class="stat-card"><i class="fas fa-folder-open text-primary fa-lg"></i><div class="small fw-bold mt-2">Қоржын</div></div></div>
-                    <div class="col-4" onclick="openSection('links-page')"><div class="stat-card"><i class="fas fa-link text-warning fa-lg"></i><div class="small fw-bold mt-2">Сілтеме</div></div></div>
-                    <div class="col-4" onclick="openSection('glossary')"><div class="stat-card"><i class="fas fa-book text-secondary fa-lg"></i><div class="small fw-bold mt-2">Сөздік</div></div></div>
-                    <div class="col-4" onclick="openSection('news-write')"><div class="stat-card"><i class="fas fa-bullhorn text-warning fa-lg"></i><div class="small fw-bold mt-2">Хабар</div></div></div>
-                    <div class="col-4" onclick="openSection('advisor')"><div class="stat-card"><i class="fas fa-user-tie text-danger fa-lg"></i><div class="small fw-bold mt-2">Advisor</div></div></div>
+                <div class="row g-3">
+                    <div class="col-4" onclick="openSection('schedule')"><div class="stat-card"><i class="fas fa-calendar-alt text-primary fa-lg"></i><div class="small fw-bold mt-1">Кесте</div></div></div>
+                    <div class="col-4" onclick="openSection('academic')"><div class="stat-card"><i class="fas fa-chart-line text-success fa-lg"></i><div class="small fw-bold mt-1">GPA</div></div></div>
+                    <div class="col-4" onclick="openSection('deadlines')"><div class="stat-card"><i class="fas fa-tasks text-danger fa-lg"></i><div class="small fw-bold mt-1">Дедлайн</div></div></div>
+                    <div class="col-4" onclick="openSection('map')"><div class="stat-card"><i class="fas fa-map-marked-alt text-info fa-lg"></i><div class="small fw-bold mt-1">Карта</div></div></div>
+                    <div class="col-4" onclick="openSection('library')"><div class="stat-card"><i class="fas fa-folder-open text-primary fa-lg"></i><div class="small fw-bold mt-1">Қоржын</div></div></div>
+                    <div class="col-4" onclick="openSection('links-page')"><div class="stat-card"><i class="fas fa-link text-warning fa-lg"></i><div class="small fw-bold mt-1">Сілтеме</div></div></div>
+                    <div class="col-4" onclick="openSection('glossary')"><div class="stat-card"><i class="fas fa-book text-secondary fa-lg"></i><div class="small fw-bold mt-1">Сөздік</div></div></div>
+                    <div class="col-4" onclick="openSection('news-write')"><div class="stat-card"><i class="fas fa-bullhorn text-warning fa-lg"></i><div class="small fw-bold mt-1">Хабар</div></div></div>
+                    <div class="col-4" onclick="openSection('advisor')"><div class="stat-card"><i class="fas fa-user-tie text-danger fa-lg"></i><div class="small fw-bold mt-1">Advisor</div></div></div>
                 </div>
                 
-                <div class="s-card mb-5">
-                    <h5 class="fw-bold mb-3"><i class="fas fa-newspaper me-2 text-primary"></i> Жаңалықтар</h5>
+                <div class="s-card mt-4 mb-5">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-newspaper me-2 text-primary"></i> Хабарландырулар</h5>
                     <div id="homeNews"></div>
                 </div>
             </div>
         </div>
 
-        <div id="schedule" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Сабақ кестесі</h3></div>
-            <div class="s-card border-warning border-start border-4"><h6 class="fw-bold mb-2">Сессия уақыты</h6><div class="input-group"><input type="datetime-local" id="session-input" class="form-control"><button onclick="saveSession()" class="btn btn-warning text-white fw-bold">OK</button></div></div>
-            <div class="s-card mt-3"><h6 class="fw-bold">Пән қосу</h6><div class="input-group"><select id="day" class="form-select"><option>Дүйсенбі</option><option>Сейсенбі</option><option>Сәрсенбі</option><option>Бейсенбі</option><option>Жұма</option></select><input type="text" id="subj" class="form-control" placeholder="08:00: Математика"><button onclick="addSch()" class="btn btn-success">+</button></div></div>
+        <div id="links-page" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Пайдалы сілтемелер</h3></div>
+            <a href="https://platonus.vku.edu.kz" target="_blank" class="link-item"><i class="fas fa-university me-3 text-primary fa-2x"></i> <div><b>Platonus VKU</b><br><small class="text-muted">Оқу процесін бақылау</small></div></a>
+            <a href="https://lib.vku.edu.kz" target="_blank" class="link-item"><i class="fas fa-book-reader me-3 text-success fa-2x"></i> <div><b>VKU Кітапхана</b><br><small class="text-muted">Электронды ресурстар</small></div></a>
+        </div></div>
+
+        <div id="deadlines" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Дедлайндар</h3></div>
+            <div class="s-card">
+                <input type="text" id="dl-task" class="form-control mb-2" placeholder="Тапсырма атауы">
+                <input type="date" id="dl-date" class="form-control mb-2">
+                <button onclick="addDeadline()" class="btn btn-primary w-100">Қосу</button>
+            </div>
+            <div id="dl-list" class="mt-3"></div>
+        </div></div>
+
+        <div id="library" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Материалдар</h3></div>
+            <div class="s-card">
+                <input type="text" id="lib-title" class="form-control mb-2" placeholder="Атауы (мысалы: Конспект)">
+                <input type="url" id="lib-link" class="form-control mb-2" placeholder="Сілтеме (Drive/Web)">
+                <button onclick="addLib()" class="btn btn-success w-100">Сақтау</button>
+            </div>
+            <div id="lib-list" class="mt-3 row g-2"></div>
+        </div></div>
+
+        <div id="schedule" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Кесте</h3></div>
+            <div class="s-card border border-warning"><h6 class="fw-bold mb-2 text-warning">Сессия уақыты</h6><div class="input-group"><input type="datetime-local" id="session-input" class="form-control"><button onclick="saveSession()" class="btn btn-warning text-white fw-bold">OK</button></div></div>
+            <div class="s-card mt-3"><h6 class="fw-bold">Сабақ қосу</h6><div class="input-group"><select id="day" class="form-select"><option>Дүйсенбі</option><option>Сейсенбі</option><option>Сәрсенбі</option><option>Бейсенбі</option><option>Жұма</option></select><input type="text" id="subj" class="form-control" placeholder="Уақыты: Пән"><button onclick="addSch()" class="btn btn-success">+</button></div></div>
             <div id="schList" class="mt-3"></div>
         </div></div>
 
         <div id="academic" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>GPA Есептеу</h3></div>
-            <div class="s-card"><div id="gpa-rows"><div class="row g-2 mb-2"><div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div></div></div><button onclick="addGpaRow()" class="btn btn-outline-secondary btn-sm mb-3 w-100">+ Пән қосу</button><button onclick="calculateAdvancedGPA()" class="btn btn-primary w-100">Есептеу</button><div id="advancedGpaRes" class="mt-3 text-center h3 fw-bold text-success"></div></div>
+            <div class="s-card"><div id="gpa-rows"><div class="row g-2 mb-2"><div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div></div></div><button onclick="addGpaRow()" class="btn btn-outline-secondary btn-sm mb-3 w-100">+ Пән қосу</button><button onclick="calculateAdvancedGPA()" class="btn btn-primary w-100">GPA Есептеу</button><div id="advancedGpaRes" class="mt-3 text-center h3 fw-bold text-success"></div></div>
         </div></div>
 
-        <div id="deadlines" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Дедлайндар</h3></div>
-            <div class="s-card"><input type="text" id="dl-task" class="form-control mb-2" placeholder="Тапсырма"><input type="date" id="dl-date" class="form-control mb-2"><button onclick="addDeadline()" class="btn btn-primary w-100">Сақтау</button></div>
-            <div id="dl-list" class="mt-3"></div>
-        </div></div>
-
-        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Университет картасы</h3></div><div class="s-card p-0 overflow-hidden" style="height:450px;"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.4468246387!2d82.6074!3d49.9577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDU3JzI3LjciTiA4MsKwMzYnMjYuNiJF!5e0!3m2!1skk!2skz!4v1620000000000" width="100%" height="100%" style="border:0;" allowfullscreen=""></iframe></div></div></div>
-        
-        <div id="library" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Менің қоржыным</h3></div>
-            <div class="s-card"><input type="text" id="lib-title" class="form-control mb-2" placeholder="Атауы"><input type="url" id="lib-link" class="form-control mb-2" placeholder="Drive сілтемесі"><button onclick="addLib()" class="btn btn-success w-100">Қосу</button></div>
-            <div id="lib-list" class="mt-3 row g-2"></div>
-        </div></div>
-
-        <div id="links-page" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Сілтемелер</h3></div>
-            <a href="https://platonus.vku.edu.kz" target="_blank" class="link-item"><i class="fas fa-university me-3 text-primary fa-2x"></i><div><b>Platonus VKU</b><br><small class="text-muted">Оқу процесі</small></div></a>
-            <a href="https://lib.vku.edu.kz" target="_blank" class="link-item"><i class="fas fa-book-reader me-3 text-success fa-2x"></i><div><b>Кітапхана</b><br><small class="text-muted">Ресурстар</small></div></a>
-        </div></div>
-
+        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Карта</h3></div><div class="s-card p-0 overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.551744155182!2d82.6074116!3d49.9634994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42eb45953046f481%3A0xe1047648f58a36!2z0JLQmtCjINC40LwuINChLiDQkNC80LDQvdC20L7Qu9C-0LLQsA!5e0!3m2!1skk!2skz!4v1715000000000!5m2!1skk!2skz" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div></div>
         <div id="glossary" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Сөздік</h3></div><div id="glossaryView" class="s-card"></div></div></div>
-        
-        <div id="news-write" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Хабарлама жазу</h3></div>
-            <div class="s-card"><textarea id="newsInp" class="form-control mb-3" rows="3" placeholder="Мәтін жазыңыз..."></textarea><div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" id="urgentCheck"><label class="form-check-label" for="urgentCheck">⚠️ Шұғыл</label></div><button onclick="saveNews()" class="btn btn-warning w-100 fw-bold">Жариялау</button></div>
-        </div></div>
-
-        <div id="advisor" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Advisor-ға сұрақ</h3></div>
-            <div class="s-card"><h5>Анонимді сұрақ жіберу</h5><textarea id="anonQ" class="form-control mb-3" rows="4"></textarea><button onclick="sendQ()" class="btn btn-primary w-100">Жіберу</button></div>
-        </div></div>
-
-        <div id="admin" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Админ панель</h3></div>
-            <div class="s-card mb-4"><h6>Сөздікке қосу</h6><input type="text" id="glTerm" class="form-control mb-1" placeholder="Термин"><input type="text" id="glDef" class="form-control mb-2" placeholder="Анықтама"><button onclick="addGlossary()" class="btn btn-primary btn-sm">Қосу</button></div>
-            <div id="adminQList"></div>
-        </div></div>
+        <div id="news-write" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Жазу</h3></div><div class="s-card"><textarea id="newsInp" class="form-control mb-3" rows="3" placeholder="Хабарлама..."></textarea><div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" id="urgentCheck"><label class="form-check-label" for="urgentCheck">⚠️ Шұғыл</label></div><button onclick="saveNews()" class="btn btn-warning w-100 fw-bold">Жариялау</button></div></div></div>
+        <div id="advisor" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Advisor</h3></div><div class="s-card"><h5>Анонимді сұрақ</h5><textarea id="anonQ" class="form-control mb-3" rows="4"></textarea><button onclick="sendQ()" class="btn btn-primary w-100">Жіберу</button></div></div></div>
+        <div id="admin" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Админ</h3></div><div class="s-card mb-4"><input type="text" id="glTerm" class="form-control mb-1" placeholder="Термин"><input type="text" id="glDef" class="form-control mb-2" placeholder="Анықтама"><button onclick="addGlossary()" class="btn btn-primary btn-sm">Қосу</button></div><div id="adminQList"></div></div></div>
 
         <div class="text-center py-4"><button onclick="enterAdmin()" class="btn btn-link text-muted" style="text-decoration:none; opacity:0.1">Admin Access</button></div>
     </div>
@@ -218,6 +213,7 @@
         const store = (k, v) => localStorage.setItem(k, JSON.stringify(v));
         const get = (k) => JSON.parse(localStorage.getItem(k) || '[]');
 
+        // --- AUTH SYSTEM ---
         function toggleAuth(isLogin) {
             document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
             document.getElementById('reg-form').style.display = isLogin ? 'none' : 'block';
@@ -231,12 +227,13 @@
             let users = get('app_users');
             if(type === 'reg') {
                 if(users.find(u => u.login === login)) return alert("Логин бос емес!");
-                users.push({login, pass}); store('app_users', users);
+                users.push({login, pass});
+                store('app_users', users);
                 alert("Тіркелу сәтті!"); toggleAuth(true);
             } else {
                 const user = users.find(u => u.login === login && u.pass === pass);
                 if(user) { sessionStorage.setItem('current_user', login); initApp(); } 
-                else alert("Қате логин немесе құпия сөз!");
+                else alert("Қате!");
             }
         }
 
@@ -245,32 +242,36 @@
             if(user) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
-                document.getElementById('welcome-user').innerHTML = `<i class="fas fa-user-circle me-2"></i>${user}`;
-                updateTimer(); renderNews(); renderSch(); renderGl(); renderDeadlines(); renderLib();
-                const mood = localStorage.getItem('user_mood');
-                if(mood) document.getElementById('mood-status').innerText = `Бүгінгі күй: ${mood}`;
+                document.getElementById('welcome-user').innerHTML = `<i class="fas fa-user me-2"></i> ${user}`;
+                updateTimer(); renderNews(); renderSch(); renderGl();
+                renderDeadlines(); renderLib(); // Жаңа функцияларды іске қосу
+                
+                const savedMood = localStorage.getItem('user_mood');
+                if(savedMood) document.getElementById('mood-status').innerText = `Бүгін сізде: ${savedMood} күйі.`;
             }
         }
 
         function logout() { sessionStorage.removeItem('current_user'); location.reload(); }
 
+        // --- CORE LOGIC ---
         const quotes = [
-            "Өзіңе сен өзіңді алып шығар-еңбегің мен ниетің екі жақтап💪",
-            "Бүгін — жаңа жетістіктер күні! ✨",
-            "Кішкентай қадамдар үлкен мақсатқа жеткізеді. 🚶‍♂️",
-            "Білім — таусылмайтын қазына. 📚"
+            "Бүгін кітапханаға баруды ұмытпа! 📚", 
+            "Сәттілік! Сенің қолыңнан бәрі келеді. ✨", 
+            "Кішкентай қадамдар үлкен жеңіске әкеледі. 🚶‍♂️", 
+            "Бүгін жаңа нәрсе үйренуге тамаша күн! 🧠", 
+            "Өзіңе сен өзіңді алып шығар-еңбегің мен ниетің екі жақтап💪"
         ];
 
         function saveMood(emoji) {
             localStorage.setItem('user_mood', emoji);
-            document.getElementById('mood-status').innerText = `Бүгінгі күй: ${emoji}. Сәтті күн!`;
+            document.getElementById('mood-status').innerText = `Бүгін сізде: ${emoji} күйі. Күніңіз сәтті өтсін!`;
         }
 
         function saveSession() {
             const val = document.getElementById('session-input').value;
             if(!val) return;
             localStorage.setItem('user_exam_date', val);
-            updateTimer();
+            alert("Сақталды!"); updateTimer();
         }
 
         function updateTimer() {
@@ -279,11 +280,11 @@
             const diff = new Date(saved).getTime() - new Date().getTime();
             const container = document.getElementById('timer-container');
             const display = document.getElementById("countdown");
-            if(diff <= 0) { container.style.display = 'block'; display.innerText = "СӘТТІЛІК!"; return; }
+            if(diff <= 0) { container.style.display = 'block'; display.innerText = "Сессия!"; return; }
             container.style.display = 'block';
             const d = Math.floor(diff / 86400000);
             const h = Math.floor((diff % 86400000) / 3600000);
-            display.innerText = `${d} күн ${h} сағат`;
+            display.innerText = `${d}к ${h}с қалды`;
         }
 
         function toggleTheme() {
@@ -300,32 +301,59 @@
         }
         function backToHome() { openSection('home'); }
 
+        // --- DEADLINES ---
         function addDeadline() {
             let task = document.getElementById('dl-task').value;
             let date = document.getElementById('dl-date').value;
             if(!task || !date) return;
-            let dls = get('u_deadlines'); dls.push({task, date, id: Date.now()});
-            store('u_deadlines', dls); renderDeadlines();
+            let dls = get('u_deadlines');
+            dls.push({task, date, id: Date.now()});
+            store('u_deadlines', dls);
             document.getElementById('dl-task').value = "";
+            renderDeadlines();
         }
 
         function renderDeadlines() {
             document.getElementById('dl-list').innerHTML = get('u_deadlines').map(i => {
-                const days = Math.ceil((new Date(i.date) - new Date()) / 86400000);
-                return `<div class="list-item"><div><b>${i.task}</b><br><small class="${days<3?'text-danger':''}">${i.date}</small></div><i class="fas fa-check-circle text-success" onclick="del('u_deadlines',${i.id},renderDeadlines)"></i></div>`;
-            }).join('') || "Дедлайндар бос.";
+                const daysLeft = Math.ceil((new Date(i.date) - new Date()) / (1000 * 60 * 60 * 24));
+                const colorClass = daysLeft <= 3 ? 'text-danger fw-bold' : 'text-muted';
+                return `<div class="list-item">
+                    <div><b>${i.task}</b><br><small class="${colorClass}">${i.date} (${daysLeft} күн)</small></div>
+                    <i class="fas fa-check-circle text-success" onclick="del('u_deadlines',${i.id},renderDeadlines)"></i>
+                </div>`;
+            }).join('') || "Дедлайн жоқ.";
         }
 
+        // --- LIBRARY ---
         function addLib() {
-            let title = document.getElementById('lib-title').value, link = document.getElementById('lib-link').value;
+            let title = document.getElementById('lib-title').value;
+            let link = document.getElementById('lib-link').value;
             if(!title || !link) return;
-            let libs = get('u_lib'); libs.push({title, link, id: Date.now()});
-            store('u_lib', libs); renderLib();
-            document.getElementById('lib-title').value = ""; document.getElementById('lib-link').value = "";
+            let libs = get('u_lib');
+            libs.push({title, link, id: Date.now()});
+            store('u_lib', libs);
+            document.getElementById('lib-title').value = "";
+            document.getElementById('lib-link').value = "";
+            renderLib();
         }
 
         function renderLib() {
-            document.getElementById('lib-list').innerHTML = get('u_lib').map(i => `<div class="col-6"><a href="${i.link}" target="_blank" class="link-item flex-column text-center py-3"><i class="fas fa-file-pdf mb-2 text-danger"></i><span class="small text-truncate w-100">${i.title}</span><i class="fas fa-trash-alt text-muted mt-2" onclick="event.preventDefault(); del('u_lib',${i.id},renderLib)"></i></a></div>`).join('');
+            document.getElementById('lib-list').innerHTML = get('u_lib').map(i => `
+                <div class="col-6">
+                    <a href="${i.link}" target="_blank" class="link-item flex-column text-center p-2" style="height:100px; justify-content:center;">
+                        <i class="fas fa-file-pdf mb-1 text-primary"></i>
+                        <span class="small text-truncate w-100">${i.title}</span>
+                        <i class="fas fa-times-circle text-danger mt-1" onclick="event.preventDefault(); del('u_lib',${i.id},renderLib)"></i>
+                    </a>
+                </div>
+            `).join('') || "<div class='text-center w-100 mt-3'>Қоржын бос.</div>";
+        }
+
+        // --- GPA, NEWS, SCH, GLOSSARY ---
+        function addGpaRow() {
+            const r = document.createElement('div'); r.className='row g-2 mb-2';
+            r.innerHTML='<div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div>';
+            document.getElementById('gpa-rows').appendChild(r);
         }
 
         function calculateAdvancedGPA() {
@@ -337,13 +365,7 @@
                     tp += g*cr; tc += cr;
                 }
             });
-            document.getElementById('advancedGpaRes').innerText = tc>0 ? (tp/tc).toFixed(2) : "0.00";
-        }
-
-        function addGpaRow() {
-            const r = document.createElement('div'); r.className='row g-2 mb-2';
-            r.innerHTML='<div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кред"></div>';
-            document.getElementById('gpa-rows').appendChild(r);
+            document.getElementById('advancedGpaRes').innerText = "GPA: " + (tc>0?(tp/tc).toFixed(2):0);
         }
 
         function saveNews() {
@@ -354,22 +376,21 @@
         }
 
         function renderNews() {
-            document.getElementById('homeNews').innerHTML = get('u_news').map(x => `<div class="list-item ${x.urgent?'urgent':''}"><div>${x.t}</div><i class="fas fa-trash text-danger" onclick="del('u_news',${x.id},renderNews)"></i></div>`).join('') || "Жаңалық жоқ.";
+            document.getElementById('homeNews').innerHTML = get('u_news').map(x => `<div class="list-item ${x.urgent?'urgent':''}"><div>${x.t}</div><i class="fas fa-trash text-danger" onclick="del('u_news',${x.id},renderNews)"></i></div>`).join('') || "Хабар жоқ.";
         }
 
         function addSch() {
             let d=document.getElementById('day').value, s=document.getElementById('subj').value;
             if(!s) return;
             let l=get('u_sch'); l.push({d,s,id:Date.now()}); store('u_sch',l); renderSch();
-            document.getElementById('subj').value = "";
         }
 
         function renderSch() {
-            document.getElementById('schList').innerHTML = get('u_sch').map(i => `<div class="list-item"><span><b>${i.d}:</b> ${i.s}</span><i class="fas fa-times text-danger" onclick="del('u_sch',${i.id},renderSch)"></i></div>`).join('');
+            document.getElementById('schList').innerHTML = get('u_sch').map(i => `<div class="list-item"><span><b>${i.d}:</b> ${i.s}</span><i class="fas fa-trash text-danger" onclick="del('u_sch',${i.id},renderSch)"></i></div>`).join('');
         }
 
         function renderGl() {
-            document.getElementById('glossaryView').innerHTML = get('u_gl').map(i => `<div class="mb-3 border-bottom pb-2"><b>${i.t}</b><br><span class="text-muted small">${i.d}</span></div>`).join('') || "Сөздік бос.";
+            document.getElementById('glossaryView').innerHTML = get('u_gl').map(i => `<div class="mb-2"><b>${i.t}</b> - ${i.d}</div>`).join('') || "Сөздік бос.";
         }
 
         function addGlossary() {
@@ -385,9 +406,9 @@
             alert("Жіберілді!"); document.getElementById('anonQ').value = ""; backToHome();
         }
 
-        function enterAdmin() { if(prompt("Құпия сөз:") === "admin123") openSection('admin'); }
-        function renderAdminAll() { document.getElementById('adminQList').innerHTML = get('u_qs').map(i => `<div class="list-item"><span>${i.q}</span><i class="fas fa-trash text-danger" onclick="del('u_qs',${i.id},renderAdminAll)"></i></div>`).join(''); }
-        function del(k, id, cb) { if(confirm("Жоюды растайсыз ба?")) { store(k, get(k).filter(x => x.id !== id)); cb(); } }
+        function enterAdmin() { if(prompt("Пароль:") === "admin123") openSection('admin'); }
+        function renderAdminAll() { document.getElementById('adminQList').innerHTML = get('u_qs').map(i => `<div class="small border-bottom mb-2">${i.q} <i class="fas fa-trash text-danger float-end" onclick="del('u_qs',${i.id},renderAdminAll)"></i></div>`).join(''); }
+        function del(k, id, cb) { store(k, get(k).filter(x => x.id !== id)); cb(); }
 
         window.onload = () => { 
             document.getElementById('daily-quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
