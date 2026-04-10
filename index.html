@@ -408,7 +408,7 @@
 
         function renderGl(filterData = null) {
             const data = filterData || get('u_gl');
-            document.getElementById('glossaryView').innerHTML = data.map(i => `<div class="mb-2"><b>${i.t}</b> - ${i.d}</div>`).join('') || "Термін табылмады.";
+            document.getElementById('glossaryView').innerHTML = data.map(i => `<div class="mb-2"><b>${i.t}</b> - ${i.d}</div>`).join('') || "Термин табылмады.";
         }
 
         function searchGlossary(query) {
