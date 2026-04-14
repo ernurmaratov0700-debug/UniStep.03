@@ -106,6 +106,9 @@
 
         /* Badge for deadlines */
         .badge-dl { font-size: 0.7rem; padding: 3px 8px; border-radius: 10px; }
+        
+        /* Жаңа қосылған стиль: Уақыт виджеті */
+        .time-widget { font-size: 0.9rem; opacity: 0.8; margin-bottom: 10px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -139,6 +142,7 @@
             </div>
             <div class="hero">
                 <div class="w-100">
+                    <div id="current-date" class="time-widget"></div>
                     <h2 class="fw-bold">UniStep: Цифрлық Ментор</h2>
                     <p id="daily-quote" class="mt-2" style="font-size: 1rem; opacity: 0.9; padding: 0 15px; font-style: italic;"></p>
                     <div id="timer-container" class="timer-box">
@@ -197,7 +201,11 @@
         <div id="library" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Материалдар</h3></div>
             <div class="s-card">
                 <input type="text" id="lib-title" class="form-control mb-2" placeholder="Атауы (мысалы: Конспект)">
-                <input type="url" id="lib-link" class="form-control mb-2" placeholder="Сілтеме (Drive/Web)">
+                <div class="mb-2">
+                    <label class="small text-muted">Сілтеме немесе Файл таңдаңыз:</label>
+                    <input type="url" id="lib-link" class="form-control mb-2" placeholder="Сілтеме (Drive/Web)">
+                    <input type="file" id="lib-file" class="form-control">
+                </div>
                 <button onclick="addLib()" class="btn btn-success w-100">Сақтау</button>
             </div>
             <div id="lib-list" class="mt-3 row g-2"></div>
@@ -213,7 +221,7 @@
             <div class="s-card"><div id="gpa-rows"><div class="row g-2 mb-2"><div class="col-7"><input type="number" class="form-control gpa-score" placeholder="Балл"></div><div class="col-5"><input type="number" class="form-control gpa-credit" placeholder="Кредит"></div></div></div><button onclick="addGpaRow()" class="btn btn-outline-secondary btn-sm mb-3 w-100">+ Пән қосу</button><button onclick="calculateAdvancedGPA()" class="btn btn-primary w-100">GPA Есептеу</button><div id="advancedGpaRes" class="mt-3 text-center h3 fw-bold text-success"></div></div>
         </div></div>
 
-        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Карта</h3></div><div class="s-card p-0 overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.5517315516!2d82.6105!3d49.9535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42eb45a66699195b%3A0x6291a8501f24d9c7!2sVKU!5e0!3m2!1skk!2skz!4v1650000000000" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div></div>
+        <div id="map" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Карта</h3></div><div class="s-card p-0 overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.4444!2d82.6!3d49.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDU0JzAwLjAiTiA4MsKwMzYnMDAuMCJF!5e0!3m2!1skk!2skz!4v1650000000000!5m2!1skk!2skz" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div></div>
         
         <div id="glossary" class="section-page"><div class="container"><div class="d-flex align-items-center mb-4"><i class="fas fa-arrow-left back-btn" onclick="backToHome()"></i><h3>Сөздік</h3></div>
             <input type="text" class="form-control mb-3" placeholder="Терминді іздеу..." oninput="searchGlossary(this.value)">
@@ -264,7 +272,7 @@
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('welcome-user').innerHTML = `<i class="fas fa-user me-2"></i> ${user}`;
                 updateTimer(); renderNews(); renderSch(); renderGl();
-                renderDeadlines(); renderLib();
+                renderDeadlines(); renderLib(); updateDate();
                 
                 const savedMood = localStorage.getItem('user_mood');
                 if(savedMood) document.getElementById('mood-status').innerText = `Бүгін сізде: ${savedMood} күйі.`;
@@ -280,6 +288,12 @@
             "Бүгін жаңа нәрсе үйренуге тамаша күн! 🧠", 
             "Өзіңе сен, өзіңді алып шығар-еңбегің мен ниетің екі жақтап💪"
         ];
+
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('kk-KZ', options);
+        }
 
         function saveMood(emoji) {
             localStorage.setItem('user_mood', emoji);
@@ -346,23 +360,43 @@
         function addLib() {
             let title = document.getElementById('lib-title').value;
             let link = document.getElementById('lib-link').value;
-            if(!title || !link) return;
+            let fileInput = document.getElementById('lib-file');
+            
+            if(!title) return alert("Атауын жазыңыз");
+
+            if(fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveToLib(title, e.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else if(link) {
+                saveToLib(title, link);
+            } else {
+                alert("Сілтеме немесе файл енгізіңіз");
+            }
+        }
+
+        function saveToLib(title, finalLink) {
             let libs = get('u_lib');
-            libs.push({title, link, id: Date.now()});
+            libs.push({title, link: finalLink, id: Date.now()});
             store('u_lib', libs);
             document.getElementById('lib-title').value = "";
             document.getElementById('lib-link').value = "";
+            document.getElementById('lib-file').value = "";
             renderLib();
         }
 
         function renderLib() {
             document.getElementById('lib-list').innerHTML = get('u_lib').map(i => `
                 <div class="col-6">
-                    <a href="${i.link}" target="_blank" class="link-item flex-column text-center p-2" style="height:100px; justify-content:center; position:relative;">
-                        <i class="fas fa-file-pdf mb-1 text-primary"></i>
-                        <span class="small text-truncate w-100 px-1">${i.title}</span>
+                    <div class="link-item flex-column text-center p-2" style="height:110px; justify-content:center; position:relative; overflow:hidden;">
+                        <a href="${i.link}" ${i.link.startsWith('data') ? 'download="file"' : 'target="_blank"'} style="text-decoration:none; color:inherit;">
+                            <i class="fas fa-file-alt mb-1 text-primary"></i>
+                            <span class="small text-truncate d-block w-100 px-1">${i.title}</span>
+                        </a>
                         <i class="fas fa-times-circle text-danger mt-1" style="cursor:pointer" onclick="event.preventDefault(); event.stopPropagation(); del('u_lib',${i.id},renderLib)"></i>
-                    </a>
+                    </div>
                 </div>
             `).join('') || "<div class='text-center w-100 mt-3'>Қоржын бос.</div>";
         }
@@ -408,7 +442,7 @@
 
         function renderGl(filterData = null) {
             const data = filterData || get('u_gl');
-            document.getElementById('glossaryView').innerHTML = data.map(i => `<div class="mb-2"><b>${i.t}</b> - ${i.d}</div>`).join('') || "Термин табылмады.";
+            document.getElementById('glossaryView').innerHTML = data.map(i => `<div class="mb-2"><b>${i.t}</b> - ${i.d}</div>`).join('') || "Термін табылмады.";
         }
 
         function searchGlossary(query) {
@@ -443,7 +477,10 @@
         window.onload = () => { 
             document.getElementById('daily-quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
             initApp();
-            setInterval(updateTimer, 60000);
+            setInterval(() => {
+                updateTimer();
+                updateDate();
+            }, 60000);
         };
     </script>
 </body>
